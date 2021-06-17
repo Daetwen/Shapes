@@ -1,0 +1,25 @@
+21-06-17 18:26.604 [main] ERROR edu.epam.task3.reader.ShapeFileReader - Error reading from file.
+java.nio.file.NoSuchFileException: info.txt
+	at sun.nio.fs.WindowsException.translateToIOException(WindowsException.java:85) ~[?:?]
+	at sun.nio.fs.WindowsException.rethrowAsIOException(WindowsException.java:103) ~[?:?]
+	at sun.nio.fs.WindowsException.rethrowAsIOException(WindowsException.java:108) ~[?:?]
+	at sun.nio.fs.WindowsFileSystemProvider.newFileChannel(WindowsFileSystemProvider.java:120) ~[?:?]
+	at java.nio.channels.FileChannel.open(FileChannel.java:292) ~[?:?]
+	at java.nio.channels.FileChannel.open(FileChannel.java:345) ~[?:?]
+	at java.nio.file.Files.lines(Files.java:4104) ~[?:?]
+	at java.nio.file.Files.lines(Files.java:4196) ~[?:?]
+	at edu.epam.task3.reader.ShapeFileReader.readPoints(ShapeFileReader.java:42) [classes/:?]
+	at edu.epam.task3.Application.main(Application.java:64) [classes/:?]
+21-06-17 18:27.304 [main] INFO  edu.epam.task3.reader.ShapeFileReader - Information read successfully.
+21-06-17 18:29.869 [main] INFO  edu.epam.task3.reader.ShapeFileReader - Information read successfully.
+21-06-17 18:29.888 [main] INFO  edu.epam.task3.reader.ShapeFileReader - Information read successfully.
+21-06-17 18:29.806 [main] INFO  edu.epam.task3.reader.ShapeFileReader - Information read successfully.
+21-06-17 18:30.087 [main] INFO  edu.epam.task3.reader.ShapeFileReader - Information read successfully.
+21-06-17 18:30.669 [main] INFO  edu.epam.task3.reader.ShapeFileReader - Information read successfully.
+21-06-17 18:44.734 [main] INFO  edu.epam.task3.reader.ShapeFileReader - Information read successfully.
+21-06-17 18:44.762 [main] INFO  edu.epam.task3.reader.ShapeFileReader - Information read successfully.
+21-06-17 18:45.977 [main] INFO  edu.epam.task3.reader.ShapeFileReader - Information read successfully.
+21-06-17 18:53.640 [main] INFO  edu.epam.task3.reader.ShapeFileReader - Information read successfully.
+21-06-17 20:17.201 [main] INFO  edu.epam.task3.reader.ShapeFileReader - Information read successfully.
+21-06-17 20:22.603 [main] INFO  edu.epam.task3.reader.ShapeFileReader - Information read successfully.
+21-06-17 20:46.904 [main] INFO  edu.epam.task3.reader.ShapeFileReader - Information read successfully.
