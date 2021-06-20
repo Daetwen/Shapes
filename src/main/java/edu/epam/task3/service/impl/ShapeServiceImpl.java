@@ -32,16 +32,6 @@ public class ShapeServiceImpl implements ShapeService {
         return result;
     }
 
-    private boolean isThreePointsOnOneLine(LocalPoint firstLocalPoint,
-                                           LocalPoint secondLocalPoint,
-                                           LocalPoint thirdLocalPoint) {
-        boolean result = firstLocalPoint.getX() == secondLocalPoint.getX()
-                      && firstLocalPoint.getX() == thirdLocalPoint.getX()
-                      && firstLocalPoint.getY() == secondLocalPoint.getY()
-                      && firstLocalPoint.getY() == thirdLocalPoint.getY();
-        return result;
-    }
-
     public boolean isСonvex(Rectangle rectangle) {
         LocalPoint firstLocalPoint = rectangle.getFirstPoint();
         LocalPoint secondLocalPoint = rectangle.getSecondPoint();
@@ -57,8 +47,32 @@ public class ShapeServiceImpl implements ShapeService {
         if (!isRectangle(firstLocalPoint, secondLocalPoint, thirdLocalPoint, fourthLocalPoint)) {
             return false;
         }
-        boolean result = true;
-        return result;
+        return intersect (
+                        firstLocalPoint.getX(),
+                        thirdLocalPoint.getX(),
+                        secondLocalPoint.getX(),
+                        fourthLocalPoint.getX())
+                && intersect (
+                        firstLocalPoint.getY(),
+                        thirdLocalPoint.getY(),
+                        secondLocalPoint.getY(),
+                        fourthLocalPoint.getY())
+                && area(
+                        firstLocalPoint,
+                        thirdLocalPoint,
+                        fourthLocalPoint)
+                * area(
+                        firstLocalPoint,
+                        thirdLocalPoint,
+                        secondLocalPoint) <= 0
+                && area(
+                        secondLocalPoint,
+                        fourthLocalPoint,
+                        firstLocalPoint)
+                * area(
+                        secondLocalPoint,
+                        fourthLocalPoint,
+                        thirdLocalPoint) <= 0;
     }
 
     public boolean isSquare(Rectangle rectangle) {
@@ -149,27 +163,25 @@ public class ShapeServiceImpl implements ShapeService {
                                LocalPoint secondLocalPoint,
                                LocalPoint thirdLocalPoint,
                                LocalPoint fourthLocalPoint) {
-        if (!isRectangle(firstLocalPoint, secondLocalPoint, thirdLocalPoint, fourthLocalPoint)) {
+        if (!isRectangle(firstLocalPoint, secondLocalPoint, thirdLocalPoint, fourthLocalPoint) ||
+            !isСonvex(firstLocalPoint, secondLocalPoint, thirdLocalPoint, fourthLocalPoint)) {
             return false;
         }
         boolean result = false;
-        double scale = Math.pow(10, 10);
-        if(Math.round((firstLocalPoint.getY() - secondLocalPoint.getY()) / (firstLocalPoint.getX() - secondLocalPoint.getX()) * scale) / scale
-                == Math.round((firstLocalPoint.getY() - thirdLocalPoint.getY()) / (firstLocalPoint.getX() - thirdLocalPoint.getX()) * scale) / scale
-                || Math.round((firstLocalPoint.getY() - secondLocalPoint.getY()) / (firstLocalPoint.getX() - secondLocalPoint.getX()) * scale) / scale
-                == Math.round((firstLocalPoint.getY() - fourthLocalPoint.getY()) / (firstLocalPoint.getX() - fourthLocalPoint.getX()) * scale) / scale
-                || Math.round((firstLocalPoint.getY() - secondLocalPoint.getY()) / (firstLocalPoint.getX() - secondLocalPoint.getX()) * scale) / scale
-                == Math.round((secondLocalPoint.getY() - thirdLocalPoint.getY()) / (secondLocalPoint.getX() - thirdLocalPoint.getX()) * scale) / scale
-                || Math.round((firstLocalPoint.getY() - secondLocalPoint.getY()) / (firstLocalPoint.getX() - secondLocalPoint.getX()) * scale) / scale
-                == Math.round((secondLocalPoint.getY() - fourthLocalPoint.getY()) / (secondLocalPoint.getX() - fourthLocalPoint.getX()) * scale) / scale
-                || Math.round((firstLocalPoint.getY() - secondLocalPoint.getY()) / (firstLocalPoint.getX() - secondLocalPoint.getX()) * scale) / scale
-                == Math.round((thirdLocalPoint.getY() - fourthLocalPoint.getY()) / (thirdLocalPoint.getX() - fourthLocalPoint.getX()) * scale) / scale
-                || Math.round((secondLocalPoint.getY() - thirdLocalPoint.getY()) / (secondLocalPoint.getX() - thirdLocalPoint.getX()) * scale) / scale
-                == Math.round((secondLocalPoint.getY() - fourthLocalPoint.getY()) / (secondLocalPoint.getX() - fourthLocalPoint.getX()) * scale) / scale
-                || Math.round((secondLocalPoint.getY() - thirdLocalPoint.getY()) / (secondLocalPoint.getX() - thirdLocalPoint.getX()) * scale) / scale
-                == Math.round((thirdLocalPoint.getY() - fourthLocalPoint.getY()) / (thirdLocalPoint.getX() - fourthLocalPoint.getX()) * scale) / scale
-                || Math.round((secondLocalPoint.getY() - fourthLocalPoint.getY()) / (secondLocalPoint.getX() - fourthLocalPoint.getX()) * scale) / scale
-                == Math.round((thirdLocalPoint.getY() - fourthLocalPoint.getY()) / (thirdLocalPoint.getX() - fourthLocalPoint.getX()) * scale) / scale) {
+        double positionX = firstLocalPoint.getX() - secondLocalPoint.getX();
+        double positionY = firstLocalPoint.getY() - secondLocalPoint.getY();
+        double firstSide = Math.abs(Math.sqrt(Math.pow(positionX, 2) + Math.pow(positionY, 2)));
+        positionX = secondLocalPoint.getX() - thirdLocalPoint.getX();
+        positionY = secondLocalPoint.getY() - thirdLocalPoint.getY();
+        double secondSide = Math.abs(Math.sqrt(Math.pow(positionX, 2) + Math.pow(positionY, 2)));
+        positionX = thirdLocalPoint.getX() - fourthLocalPoint.getX();
+        positionY = thirdLocalPoint.getY() - fourthLocalPoint.getY();
+        double thirdSide = Math.abs(Math.sqrt(Math.pow(positionX, 2) + Math.pow(positionY, 2)));
+        positionX = fourthLocalPoint.getX() - firstLocalPoint.getX();
+        positionY = fourthLocalPoint.getY() - firstLocalPoint.getY();
+        double fourthSide = Math.abs(Math.sqrt(Math.pow(positionX, 2) + Math.pow(positionY, 2)));
+        if ((isParallel(firstLocalPoint, secondLocalPoint, thirdLocalPoint, fourthLocalPoint) && secondSide != fourthSide) ||
+                (isParallel(secondLocalPoint, thirdLocalPoint, firstLocalPoint, fourthLocalPoint) && firstSide != thirdSide)) {
             result = true;
         }
         return result;
@@ -195,6 +207,50 @@ public class ShapeServiceImpl implements ShapeService {
                 == Math.abs(secondLocalPoint.getY() - thirdLocalPoint.getY()) &&
                 Math.abs(firstLocalPoint.getX() - secondLocalPoint.getX())
                 == Math.abs(fourthLocalPoint.getX() - thirdLocalPoint.getX())) {
+            result = true;
+        }
+        return result;
+    }
+
+    private boolean isThreePointsOnOneLine(LocalPoint firstLocalPoint,
+                                           LocalPoint secondLocalPoint,
+                                           LocalPoint thirdLocalPoint) {
+        boolean result = firstLocalPoint.getX() == secondLocalPoint.getX()
+                && firstLocalPoint.getX() == thirdLocalPoint.getX()
+                && firstLocalPoint.getY() == secondLocalPoint.getY()
+                && firstLocalPoint.getY() == thirdLocalPoint.getY();
+        return result;
+    }
+
+    private double area(LocalPoint a, LocalPoint b, LocalPoint c) {
+        return (b.getX() - a.getX()) * (c.getY() - a.getY()) - (b.getY() - a.getY()) * (c.getX() - a.getX());
+    }
+
+    private boolean intersect(double a, double b, double c, double d) {
+        double temp;
+        if (a > b)  {
+            temp = a;
+            a = b;
+            b = temp;
+        }
+        if (c > d)  {
+            temp = c;
+            c = d;
+            d = temp;
+        }
+        return Math.max(a,c) <= Math.min(b,d);
+    }
+
+    private boolean isParallel(LocalPoint firstPoint,
+                               LocalPoint secondPoint,
+                               LocalPoint thirdPoint,
+                               LocalPoint fourthPoint) {
+        boolean result = false;
+        double firstSegmentA = firstPoint.getY() - secondPoint.getY();
+        double firstSegmentB = secondPoint.getX() - firstPoint.getX();
+        double secondSegmentA = thirdPoint.getY() - fourthPoint.getY();
+        double secondSegmentB = thirdPoint.getX() - fourthPoint.getX();
+        if (firstSegmentA * firstSegmentB - secondSegmentA * secondSegmentB == 0) {
             result = true;
         }
         return result;

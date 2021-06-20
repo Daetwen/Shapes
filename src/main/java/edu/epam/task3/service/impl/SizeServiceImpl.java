@@ -34,8 +34,11 @@ public class SizeServiceImpl implements SizeService {
     }
 
     public double calculateArea(Rectangle rectangle) {
-        double result = 0;
-        return result;
+        LocalPoint firstLocalPoint = rectangle.getFirstPoint();
+        LocalPoint secondLocalPoint = rectangle.getSecondPoint();
+        LocalPoint thirdLocalPoint = rectangle.getThirdPoint();
+        LocalPoint fourthLocalPoint = rectangle.getFourthPoint();
+        return calculateArea(firstLocalPoint, secondLocalPoint, thirdLocalPoint, fourthLocalPoint);
     }
 
     public double calculateArea(LocalPoint firstLocalPoint,
@@ -43,6 +46,16 @@ public class SizeServiceImpl implements SizeService {
                                 LocalPoint thirdLocalPoint,
                                 LocalPoint fourthLocalPoint) {
         double result = 0;
+        result += Math.abs(
+                (firstLocalPoint.getX() - thirdLocalPoint.getX())
+                        * (secondLocalPoint.getY() - thirdLocalPoint.getY())
+                        - (secondLocalPoint.getX() - thirdLocalPoint.getX())
+                        * (firstLocalPoint.getY() - thirdLocalPoint.getY())) / 2;
+        result += Math.abs(
+                (fourthLocalPoint.getX() - thirdLocalPoint.getX())
+                        * (secondLocalPoint.getY() - thirdLocalPoint.getY())
+                        - (secondLocalPoint.getX() - thirdLocalPoint.getX())
+                        * (fourthLocalPoint.getY() - thirdLocalPoint.getY())) / 2;
         return result;
     }
 }
