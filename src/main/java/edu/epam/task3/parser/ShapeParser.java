@@ -12,6 +12,7 @@ import java.util.List;
 public class ShapeParser {
     private static final Logger logger = LogManager.getLogger();
     private static final String SPLIT_REGEX = "\\s+";
+    private static final int NUMBERS_COUNT = 8;
 
     public List<double[]> parseListToPointsXYArrays(List<String> array) throws ShapeException {
         List<double[]> result = new ArrayList<>();
@@ -22,7 +23,7 @@ public class ShapeParser {
                     double[] numArray = Arrays.stream(array.get(i).split(SPLIT_REGEX))
                             .mapToDouble(Double::parseDouble)
                             .toArray();
-                    if (numArray.length == 8) {
+                    if (numArray.length == NUMBERS_COUNT) {
                         result.add(numArray);
                     }
                 }

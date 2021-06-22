@@ -1,38 +1,43 @@
 package edu.epam.task3.entity;
 
+import edu.epam.task3.observer.RectangleEvent;
+import edu.epam.task3.observer.RectangleObservable;
+import edu.epam.task3.observer.RectangleObserver;
 import edu.epam.task3.util.ShapeID;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
-public class Rectangle {
-    private long id;
+public class Rectangle implements RectangleObservable {
+    private long rectangleID;
     private LocalPoint firstLocalPoint;
     private LocalPoint secondLocalPoint;
     private LocalPoint thirdLocalPoint;
     private LocalPoint fourthLocalPoint;
+    private List<RectangleObserver> observerList = new ArrayList<>();
 
     public Rectangle() {
-        this.id = ShapeID.generateID();
+        this.rectangleID = ShapeID.generateID();
         this.firstLocalPoint = new LocalPoint(0,0);
         this.secondLocalPoint = new LocalPoint(0,0);
         this.thirdLocalPoint = new LocalPoint(0,0);
         this.fourthLocalPoint = new LocalPoint(0,0);
     }
 
-    public Rectangle(LocalPoint firstLocalPoint, LocalPoint secondLocalPoint, LocalPoint thirdLocalPoint, LocalPoint fourthLocalPoint) {
-        this.id = ShapeID.generateID();
+    public Rectangle(LocalPoint firstLocalPoint,
+                     LocalPoint secondLocalPoint,
+                     LocalPoint thirdLocalPoint,
+                     LocalPoint fourthLocalPoint) {
+        this.rectangleID = ShapeID.generateID();
         this.firstLocalPoint = firstLocalPoint;
         this.secondLocalPoint = secondLocalPoint;
         this.thirdLocalPoint = thirdLocalPoint;
         this.fourthLocalPoint = fourthLocalPoint;
     }
 
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
+    public long getRectangleID() {
+        return rectangleID;
     }
 
     public LocalPoint getFirstPoint() {
@@ -41,6 +46,7 @@ public class Rectangle {
 
     public void setFirstPoint(LocalPoint firstLocalPoint) {
         this.firstLocalPoint = firstLocalPoint;
+        notifyObservers();
     }
 
     public LocalPoint getSecondPoint() {
@@ -49,6 +55,7 @@ public class Rectangle {
 
     public void setSecondPoint(LocalPoint secondLocalPoint) {
         this.secondLocalPoint = secondLocalPoint;
+        notifyObservers();
     }
 
     public LocalPoint getThirdPoint() {
@@ -57,6 +64,7 @@ public class Rectangle {
 
     public void setThirdPoint(LocalPoint thirdLocalPoint) {
         this.thirdLocalPoint = thirdLocalPoint;
+        notifyObservers();
     }
 
     public LocalPoint getFourthPoint() {
@@ -65,6 +73,7 @@ public class Rectangle {
 
     public void setFourthPoint(LocalPoint fourthLocalPoint) {
         this.fourthLocalPoint = fourthLocalPoint;
+        notifyObservers();
     }
 
     @Override
@@ -76,7 +85,7 @@ public class Rectangle {
             return false;
         }
         Rectangle rectangle = (Rectangle) obj;
-        return id == rectangle.id
+        return rectangleID == rectangle.rectangleID
                 && Objects.equals(firstLocalPoint, rectangle.firstLocalPoint)
                 && Objects.equals(secondLocalPoint, rectangle.secondLocalPoint)
                 && Objects.equals(thirdLocalPoint, rectangle.thirdLocalPoint)
@@ -88,7 +97,7 @@ public class Rectangle {
         int prime = 31;
         int result = 1;
 
-        result = result * prime + Long.hashCode(id);
+        result = result * prime + Long.hashCode(rectangleID);
         result = result * prime + firstLocalPoint.hashCode();
         result = result * prime + secondLocalPoint.hashCode();
         result = result * prime + thirdLocalPoint.hashCode();
@@ -101,7 +110,7 @@ public class Rectangle {
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("Rectangle: (id = ")
-                .append(id)
+                .append(rectangleID)
                 .append(") [")
                 .append(firstLocalPoint)
                 .append(", ")
@@ -112,5 +121,26 @@ public class Rectangle {
                 .append(fourthLocalPoint)
                 .append("]\n");
         return stringBuilder.toString();
+    }
+
+    @Override
+    public void attach(RectangleObserver rectangleObserver) {
+        observerList.add(rectangleObserver);
+    }
+
+    @Override
+    public void detach(RectangleObserver rectangleObserver) {
+        observerList.remove(rectangleObserver);
+    }
+
+    @Override
+    public void notifyObservers() {
+        RectangleEvent rectangleEvent = new RectangleEvent(this);
+        if (!observerList.isEmpty()) {
+            for(var observer : observerList) {
+                observer.updateArea(rectangleEvent);
+                observer.updatePerimeter(rectangleEvent);
+            }
+        }
     }
 }
