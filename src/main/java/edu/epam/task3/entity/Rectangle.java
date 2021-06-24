@@ -25,6 +25,17 @@ public class Rectangle implements RectangleObservable {
         this.fourthLocalPoint = new LocalPoint(0,0);
     }
 
+    public Rectangle(double pointX1, double pointY1,
+                     double pointX2, double pointY2,
+                     double pointX3, double pointY3,
+                     double pointX4, double pointY4) {
+        this.rectangleID = ShapeID.generateID();
+        this.firstLocalPoint = new LocalPoint(pointX1, pointY1);
+        this.secondLocalPoint = new LocalPoint(pointX2, pointY2);
+        this.thirdLocalPoint = new LocalPoint(pointX3, pointY3);
+        this.fourthLocalPoint = new LocalPoint(pointX4, pointY4);
+    }
+
     public Rectangle(LocalPoint firstLocalPoint,
                      LocalPoint secondLocalPoint,
                      LocalPoint thirdLocalPoint,
@@ -85,8 +96,7 @@ public class Rectangle implements RectangleObservable {
             return false;
         }
         Rectangle rectangle = (Rectangle) obj;
-        return rectangleID == rectangle.rectangleID
-                && Objects.equals(firstLocalPoint, rectangle.firstLocalPoint)
+        return Objects.equals(firstLocalPoint, rectangle.firstLocalPoint)
                 && Objects.equals(secondLocalPoint, rectangle.secondLocalPoint)
                 && Objects.equals(thirdLocalPoint, rectangle.thirdLocalPoint)
                 && Objects.equals(fourthLocalPoint, rectangle.fourthLocalPoint);
@@ -97,7 +107,6 @@ public class Rectangle implements RectangleObservable {
         int prime = 31;
         int result = 1;
 
-        result = result * prime + Long.hashCode(rectangleID);
         result = result * prime + firstLocalPoint.hashCode();
         result = result * prime + secondLocalPoint.hashCode();
         result = result * prime + thirdLocalPoint.hashCode();
@@ -138,8 +147,7 @@ public class Rectangle implements RectangleObservable {
         RectangleEvent rectangleEvent = new RectangleEvent(this);
         if (!observerList.isEmpty()) {
             for(var observer : observerList) {
-                observer.updateArea(rectangleEvent);
-                observer.updatePerimeter(rectangleEvent);
+                observer.updatePerimeterAndArea(rectangleEvent);
             }
         }
     }

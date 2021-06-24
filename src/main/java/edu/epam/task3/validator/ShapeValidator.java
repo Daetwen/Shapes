@@ -1,5 +1,7 @@
 package edu.epam.task3.validator;
 
+import edu.epam.task3.entity.LocalPoint;
+
 public class ShapeValidator {
 
     public static boolean checkIsStringArrayValid(String array){
@@ -14,5 +16,12 @@ public class ShapeValidator {
             }
         }
         return result;
+    }
+
+    public static boolean checkIsPointsValid(LocalPoint firstLocalPoint,
+                                     LocalPoint secondLocalPoint,
+                                     LocalPoint thirdLocalPoint,
+                                     LocalPoint fourthLocalPoint) {
+        return firstLocalPoint != null && secondLocalPoint != null && thirdLocalPoint != null && fourthLocalPoint != null;
     }
 }

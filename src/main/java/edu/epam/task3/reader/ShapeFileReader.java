@@ -24,7 +24,7 @@ public class ShapeFileReader {
             infoList = lineStream.collect(Collectors.toList());
             logger.info("Information read successfully.");
         } catch (IOException e) {
-            logger.error("Error reading from file.", e);
+            logger.error("Error reading from file: " + e.getLocalizedMessage());
             throw new ShapeException("Error reading from file.", e);
         }
         return infoList;

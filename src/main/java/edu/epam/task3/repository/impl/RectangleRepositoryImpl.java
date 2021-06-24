@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 
 public class RectangleRepositoryImpl implements RectangleRepository {
 
-    private List<Rectangle> rectangleList;
+    private List<Rectangle> rectangleList = new ArrayList<>();
 
     public boolean add(Rectangle rectangle) {
         return rectangleList.add(rectangle);
@@ -37,6 +37,11 @@ public class RectangleRepositoryImpl implements RectangleRepository {
 
     public Rectangle get(int index) {
         return rectangleList.get(index);
+    }
+
+    public List<Rectangle> getAll() {
+        List<Rectangle> result = new ArrayList<>(rectangleList);
+        return result;
     }
 
     public Rectangle set(int index, Rectangle element) {

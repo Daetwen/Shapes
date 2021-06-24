@@ -107,7 +107,6 @@ public class ShapeServiceImpl implements ShapeService {
         MathContext context = new MathContext(10, RoundingMode.HALF_UP);
         BigDecimal diagonal = new BigDecimal(Math.sqrt(Math.pow(firstSide, 2) + Math.pow(secondSide, 2)), context);
         BigDecimal shapeDiagonal = new BigDecimal(Math.sqrt(2) * firstSide, context);
-
         if (firstSide == secondSide && firstSide == thirdSide && firstSide == fourthSide
                 && diagonal.equals(shapeDiagonal)) {
             result = true;
@@ -215,10 +214,11 @@ public class ShapeServiceImpl implements ShapeService {
     private boolean isThreePointsOnOneLine(LocalPoint firstLocalPoint,
                                            LocalPoint secondLocalPoint,
                                            LocalPoint thirdLocalPoint) {
-        boolean result = firstLocalPoint.getX() == secondLocalPoint.getX()
-                && firstLocalPoint.getX() == thirdLocalPoint.getX()
-                && firstLocalPoint.getY() == secondLocalPoint.getY()
-                && firstLocalPoint.getY() == thirdLocalPoint.getY();
+        boolean result = false;
+        if (firstLocalPoint.getX() == secondLocalPoint.getX() && firstLocalPoint.getX() == thirdLocalPoint.getX() ||
+                firstLocalPoint.getY() == secondLocalPoint.getY() && firstLocalPoint.getY() == thirdLocalPoint.getY()) {
+            result = true;
+        }
         return result;
     }
 

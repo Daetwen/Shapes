@@ -21,6 +21,8 @@ public interface RectangleRepository {
 
     Rectangle get(int index);
 
+    List<Rectangle> getAll();
+
     Rectangle set(int index, Rectangle element);
 
     int size();
