@@ -4,14 +4,14 @@ import edu.epam.task3.entity.Rectangle;
 import edu.epam.task3.repository.RectangleSpecification;
 
 public class IdSpecification implements RectangleSpecification {
-    private final int id;
+    private final long id;
 
-    public IdSpecification(int id) {
+    public IdSpecification(long id) {
         this.id = id;
     }
 
     @Override
     public boolean specify(Rectangle rectangle) {
-        return this.id == rectangle.getRectangleID();
+        return this.id == rectangle.getRectangleId();
     }
 }

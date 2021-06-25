@@ -9,9 +9,9 @@ public class RectangleIdComparator implements Comparator<Rectangle> {
     @Override
     public int compare(Rectangle rectangle1, Rectangle rectangle2) {
         int result = 0;
-        if (rectangle1.getRectangleID() > rectangle2.getRectangleID()) {
+        if (rectangle1.getRectangleId() > rectangle2.getRectangleId()) {
             result = 1;
-        } else if (rectangle1.getRectangleID() < rectangle2.getRectangleID()) {
+        } else if (rectangle1.getRectangleId() < rectangle2.getRectangleId()) {
             result = -1;
         }
         return result;

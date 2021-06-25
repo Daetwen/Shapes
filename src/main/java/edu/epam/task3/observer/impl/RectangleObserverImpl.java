@@ -17,7 +17,7 @@ public class RectangleObserverImpl implements RectangleObserver {
     @Override
     public void updateArea(RectangleEvent rectangleEvent) {
         Rectangle rectangle = rectangleEvent.getSource();
-        long id = rectangle.getRectangleID();
+        long id = rectangle.getRectangleId();
         Warehouse warehouse = Warehouse.getInstance();
         try {
             SizeService sizeService = new SizeServiceImpl();
@@ -32,7 +32,7 @@ public class RectangleObserverImpl implements RectangleObserver {
     @Override
     public void updatePerimeter(RectangleEvent rectangleEvent) {
         Rectangle rectangle = rectangleEvent.getSource();
-        long id = rectangle.getRectangleID();
+        long id = rectangle.getRectangleId();
         Warehouse warehouse = Warehouse.getInstance();
         try {
             SizeService sizeService = new SizeServiceImpl();
@@ -48,7 +48,7 @@ public class RectangleObserverImpl implements RectangleObserver {
     @Override
     public void updatePerimeterAndArea(RectangleEvent rectangleEvent) {
         Rectangle rectangle = rectangleEvent.getSource();
-        long id = rectangle.getRectangleID();
+        long id = rectangle.getRectangleId();
         Warehouse warehouse = Warehouse.getInstance();
         try {
             SizeService sizeService = new SizeServiceImpl();

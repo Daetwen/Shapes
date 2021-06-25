@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class Rectangle implements RectangleObservable {
-    private long rectangleID;
+    private long rectangleId;
     private LocalPoint firstLocalPoint;
     private LocalPoint secondLocalPoint;
     private LocalPoint thirdLocalPoint;
@@ -18,7 +18,7 @@ public class Rectangle implements RectangleObservable {
     private List<RectangleObserver> observerList = new ArrayList<>();
 
     public Rectangle() {
-        this.rectangleID = ShapeID.generateID();
+        this.rectangleId = ShapeID.generateID();
         this.firstLocalPoint = new LocalPoint(0,0);
         this.secondLocalPoint = new LocalPoint(0,0);
         this.thirdLocalPoint = new LocalPoint(0,0);
@@ -29,7 +29,7 @@ public class Rectangle implements RectangleObservable {
                      double pointX2, double pointY2,
                      double pointX3, double pointY3,
                      double pointX4, double pointY4) {
-        this.rectangleID = ShapeID.generateID();
+        this.rectangleId = ShapeID.generateID();
         this.firstLocalPoint = new LocalPoint(pointX1, pointY1);
         this.secondLocalPoint = new LocalPoint(pointX2, pointY2);
         this.thirdLocalPoint = new LocalPoint(pointX3, pointY3);
@@ -40,15 +40,15 @@ public class Rectangle implements RectangleObservable {
                      LocalPoint secondLocalPoint,
                      LocalPoint thirdLocalPoint,
                      LocalPoint fourthLocalPoint) {
-        this.rectangleID = ShapeID.generateID();
+        this.rectangleId = ShapeID.generateID();
         this.firstLocalPoint = firstLocalPoint;
         this.secondLocalPoint = secondLocalPoint;
         this.thirdLocalPoint = thirdLocalPoint;
         this.fourthLocalPoint = fourthLocalPoint;
     }
 
-    public long getRectangleID() {
-        return rectangleID;
+    public long getRectangleId() {
+        return rectangleId;
     }
 
     public LocalPoint getFirstPoint() {
@@ -119,7 +119,7 @@ public class Rectangle implements RectangleObservable {
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("Rectangle: (id = ")
-                .append(rectangleID)
+                .append(rectangleId)
                 .append(") [")
                 .append(firstLocalPoint)
                 .append(", ")
