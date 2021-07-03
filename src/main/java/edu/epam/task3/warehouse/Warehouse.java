@@ -38,6 +38,10 @@ public class Warehouse {
         return rectangleParametersMap.remove(key);
     }
 
+    public int size() {
+        return rectangleParametersMap.size();
+    }
+
     public RectangleParameters get(Long key) throws ShapeException {
         RectangleParameters rectangleParameter = rectangleParametersMap.get(key);
         if (rectangleParameter == null) {

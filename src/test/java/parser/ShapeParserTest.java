@@ -4,6 +4,7 @@ import edu.epam.task3.exception.ShapeException;
 import edu.epam.task3.parser.ShapeParser;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.util.ArrayList;
@@ -60,9 +61,19 @@ public class ShapeParserTest {
         List<double[]> expected = testListDouble1;
         List<double[]> actual = shapeParser.parseListToPointsXYArrays(testListString1);
         Assert.assertEquals(actual.size(), expected.size());
-        for (int i = 0; i < actual.size(); i++) {
-            assertEquals(actual.get(i),expected.get(i));
-        }
+    }
+
+    @DataProvider(name = "PositiveTest1")
+    public Object[][] parametersPositiveTest1_1()  throws ShapeException {
+        List<double[]> actual = shapeParser.parseListToPointsXYArrays(testListString1);
+        return new Object[][] {{actual.get(0), testListDouble1.get(0)},
+                               {actual.get(1), testListDouble1.get(1)},
+                               {actual.get(2), testListDouble1.get(2)}};
+    }
+
+    @Test(dataProvider = "PositiveTest1")
+    public void parseListToPointsXYArraysPositiveTest1_1(double[] actual, double[] expected) {
+        assertEquals(actual, expected);
     }
 
     @Test
@@ -70,9 +81,17 @@ public class ShapeParserTest {
         List<double[]> expected = testListDouble2;
         List<double[]> actual = shapeParser.parseListToPointsXYArrays(testListString2);
         Assert.assertEquals(actual.size(), expected.size());
-        for (int i = 0; i < actual.size(); i++) {
-            assertEquals(actual.get(i),expected.get(i));
-        }
+    }
+
+    @DataProvider(name = "PositiveTest2")
+    public Object[][] parametersPositiveTest2_1()  throws ShapeException {
+        List<double[]> actual = shapeParser.parseListToPointsXYArrays(testListString2);
+        return new Object[][] {{actual.get(0), testListDouble2.get(0)}};
+    }
+
+    @Test(dataProvider = "PositiveTest2")
+    public void parseListToPointsXYArraysPositiveTest2_1(double[] actual, double[] expected) {
+        assertEquals(actual, expected);
     }
 
     @Test
@@ -80,9 +99,18 @@ public class ShapeParserTest {
         List<double[]> expected = testListDouble3;
         List<double[]> actual = shapeParser.parseListToPointsXYArrays(testListString3);
         Assert.assertEquals(actual.size(), expected.size());
-        for (int i = 0; i < actual.size(); i++) {
-            assertEquals(actual.get(i),expected.get(i));
-        }
+    }
+
+    @DataProvider(name = "PositiveTest3")
+    public Object[][] parametersPositiveTest3_1()  throws ShapeException {
+        List<double[]> actual = shapeParser.parseListToPointsXYArrays(testListString3);
+        return new Object[][] {{actual.get(0), testListDouble3.get(0)},
+                               {actual.get(1), testListDouble3.get(1)}};
+    }
+
+    @Test(dataProvider = "PositiveTest3")
+    public void parseListToPointsXYArraysPositiveTest3_1(double[] actual, double[] expected) {
+        assertEquals(actual, expected);
     }
 
     @Test

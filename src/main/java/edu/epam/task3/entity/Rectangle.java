@@ -147,7 +147,8 @@ public class Rectangle implements RectangleObservable {
         RectangleEvent rectangleEvent = new RectangleEvent(this);
         if (!observerList.isEmpty()) {
             for(var observer : observerList) {
-                observer.updatePerimeterAndArea(rectangleEvent);
+                observer.updatePerimeter(rectangleEvent);
+                observer.updateArea(rectangleEvent);
             }
         }
     }

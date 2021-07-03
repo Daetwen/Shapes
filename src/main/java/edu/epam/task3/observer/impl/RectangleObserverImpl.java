@@ -56,7 +56,7 @@ public class RectangleObserverImpl implements RectangleObserver {
             double area = sizeService.calculateArea(rectangle);
             warehouse.update(id, perimeter, area);
             logger.info("Perimeter and area of rectangle with id "
-                    + id + " was changed successfully. New perimeter = " + perimeter + ". New area = " + area);
+                    + id + " was changed successfully. New perimeter = " + perimeter + ". New area = " + area + ".");
         } catch (ShapeException e) {
             logger.error("Error in updating perimeter and area: ", e);
         }
